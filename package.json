@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3030",
     "build": "vite build",
     "preview": "vite preview",
     "server": "json-server server/db.json --port 3001"
