@@ -1,6 +1,7 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
+import { UserAppp } from './users/users-app.js'
 
 
 document.querySelector('#app').innerHTML = `
@@ -18,5 +19,8 @@ document.querySelector('#app').innerHTML = `
    
   </div>
 `
+const element = document.querySelector('.card ')
+
+UserAppp(element);
 
 
