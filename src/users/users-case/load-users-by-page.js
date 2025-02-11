@@ -1,4 +1,5 @@
 import { localhostUserToModel } from "../mappers/localhost-user.mapper";
+import { User } from "../models/user";
 // cargar usuarios
 export const loadUsers = async (page = 1) => {
     const url = `${import.meta.env.VITE_BASE_URL}/users?_page= ${page}`;
@@ -7,6 +8,6 @@ export const loadUsers = async (page = 1) => {
     const users = data.map(localhostUserToModel);
 
     console.log(users);
-   
+    return users;
 
 }
