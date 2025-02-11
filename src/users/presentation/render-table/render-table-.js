@@ -30,5 +30,28 @@ export const renderTable = (element) => {
         element.append(table);
         // TODO: listener a la tabla
     }
+
+    let tablehtm = '';
+    users.forEach(user =>{
+        tablehtm += `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.balance}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.isActive}</td>
+                <td>
+                 <a href="#/" data-id=" ${user.id}">select</a>
+                 <a href="#/" data-id=" ${user.id}">Delete</a>
+                </td>
+            </tr>
+        `;
+
+    });
+
+    table.querySelector('tbody').innerHTML = tablehtm;
+
+
+
 };
     
