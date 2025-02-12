@@ -6,14 +6,34 @@ const state = {
   users: []
 
 }
-const  loandNextPage = async () => {
-const user = await loadUsers(state.currentPage + 1);
+const inicioButton = async () => {
+    const user = await loadUsers(1);
     if (user.length === 0) return;
-    state.currentPage += 1;
+    state.currentPage = 1;
     state.users =  user
 }
+const  finButton = async () => {
+    const user = await loadUsers(6);
+    if (user.length === 0) return;
+    state.currentPage = 6;
+    state.users =  user
+}
+
+const  loandNextPage = async () => {
+    if (state.currentPage >= 6) return;
+    const user = await loadUsers(state.currentPage + 1);
+        if (user.length === 0) return;
+        state.currentPage += 1;
+        state.users =  user
+}
 const  loadPreviousPage = async () => {
-    throw new Error('Not implemented')
+    if (state.currentPage === 1) return;
+    const user = await loadUsers(state.currentPage - 1);
+        if (user.length === 0) return;
+        state.currentPage -= 1;
+        state.users =  user
+
+   
 }
 
 // TODO: implemetar
@@ -33,8 +53,9 @@ export default {
     loadPreviousPage,
     onUserChanged,
     reloadPage,
-
+    inicioButton,
+    finButton,
     getUsers: () => [...state.users],
-    getCurentPage: () => state.currentPage,
+    getCurrentPage: () => state.currentPage,
 
 }
