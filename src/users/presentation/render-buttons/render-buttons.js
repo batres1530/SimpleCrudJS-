@@ -12,5 +12,8 @@ export const renderButtons = (element) => {
     const currentPageLabel = document.createElement('span');
     currentPageLabel.id = 'current-page';
     currentPageLabel.innerText = usersStore.getCurentPage();
+
     element.append(prevButton, currentPageLabel, nextButton);
+
+    
 }
