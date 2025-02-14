@@ -22,7 +22,7 @@ export const  renderModal = (element) => {
 
 
     modal.addEventListener('click', (e)=>{
-      if (e.target.className !== 'hide-modal') {
+      if (e.target.className === 'modal-cantainer') {
         hideModal();
       }
 
@@ -30,7 +30,12 @@ export const  renderModal = (element) => {
 
     from.addEventListener('submit', (evento)=>{
         evento.preventDefault();
-        console.log('formulario enviado');
+    
+        const fromdata = new FormData(from);
+
+        for (const iterador of fromdata) {
+            console.log(iterador);
+        }
 
     });
 
