@@ -13,7 +13,7 @@ export const hideModal = ()=>{
     from?.reset();
 }
 
-export const  renderModal = (element) => {
+export const  renderModal = (element, callback) => {
     if (modal)  return;
 
     modal = document.createElement('div');
@@ -30,7 +30,7 @@ export const  renderModal = (element) => {
 
     });
 
-    from.addEventListener('submit', (evento)=>{
+    from.addEventListener('submit', async (evento)=>{
         evento.preventDefault();
     
         const fromdata = new FormData(from);
@@ -49,6 +49,7 @@ export const  renderModal = (element) => {
         userlike[key] = value;
     }
         //Todo  :  guardar el usuario en la base de datos
+        await callback(userlike);
         hideModal();
     });
 
