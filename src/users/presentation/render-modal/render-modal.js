@@ -1,5 +1,6 @@
 import modalHtml from  './render-modal.html?raw';
 import './render-modal.css';
+
 let modal, from;
 
 //todo: cargar el usario por id
@@ -9,6 +10,7 @@ export const showModal = ()=>{
 
 export const hideModal = ()=>{
     modal?.classList.add('hide-modal');
+    from?.reset();
 }
 
 export const  renderModal = (element) => {
@@ -21,8 +23,8 @@ export const  renderModal = (element) => {
 
 
 
-    modal.addEventListener('click', (e)=>{
-      if (e.target.className === 'modal-cantainer') {
+    modal.addEventListener('click', (eventos)=>{
+      if (eventos.target.className === 'modal-cantainer') {
         hideModal();
       }
 
@@ -32,11 +34,22 @@ export const  renderModal = (element) => {
         evento.preventDefault();
     
         const fromdata = new FormData(from);
+        const userlike = {};
 
-        for (const iterador of fromdata) {
-            console.log(iterador);
+        for (const [key, value] of fromdata) {
+            if (key === 'balance') {
+                userlike[key] = +value;
+                continue;
         }
 
+        if (key === 'isActive') {
+            userlike[key] = value === 'on'? true: false;
+            continue;
+        }
+        userlike[key] = value;
+    }
+        //Todo  :  guardar el usuario en la base de datos
+        hideModal();
     });
 
     element.append(modal);
