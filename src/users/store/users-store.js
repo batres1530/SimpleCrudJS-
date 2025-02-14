@@ -13,14 +13,14 @@ const inicioButton = async () => {
     state.users =  user
 }
 const  finButton = async () => {
-    const user = await loadUsers(6);
+    const user = await loadUsers(7);
     if (user.length === 0) return;
     state.currentPage = 6;
     state.users =  user
 }
 
 const  loandNextPage = async () => {
-    if (state.currentPage >= 6) return;
+    if (state.currentPage >= 7) return;
     const user = await loadUsers(state.currentPage + 1);
         if (user.length === 0) return;
         state.currentPage += 1;

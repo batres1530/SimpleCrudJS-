@@ -9,9 +9,10 @@ export const showModal = ()=>{
 
 export const hideModal = ()=>{
     modal?.classList.add('hide-modal');
+    from?.reset();
 }
 
-export const  renderModal = (element) => {
+export const  renderModal = (element, callback) => {
     if (modal)  return;
 
     modal = document.createElement('div');
@@ -22,16 +23,34 @@ export const  renderModal = (element) => {
 
 
     modal.addEventListener('click', (e)=>{
-      if (e.target.className !== 'hide-modal') {
+      if (e.target.className === 'modal-cantainer') {
         hideModal();
       }
 
     });
 
-    from.addEventListener('submit', (evento)=>{
+    from.addEventListener('submit', async (evento)=>{
         evento.preventDefault();
-        console.log('formulario enviado');
+        
+        const formData = new FormData(from);
+        const userLike = {}; 
 
+        for (const [key, value] of formData) {
+            if (key === 'balance') {
+                userLike[key] = +value;
+                continue;
+            }
+            userLike[key] = value;
+            if (key === 'isActive') {
+                userLike[key] = (value === 'on')? true : false;
+                continue;
+              }
+              userLike[key] = value;
+        }
+        // todo : guardar el usuario
+        hideModal();
+        console.log(userLike);
+        await callback(userLike);
     });
 
     element.append(modal);
