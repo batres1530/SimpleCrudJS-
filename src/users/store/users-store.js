@@ -15,7 +15,7 @@ const inicioButton = async () => {
 const  finButton = async () => {
     const user = await loadUsers(7);
     if (user.length === 0) return;
-    state.currentPage = 6;
+    state.currentPage = 5;
     state.users =  user
 }
 
