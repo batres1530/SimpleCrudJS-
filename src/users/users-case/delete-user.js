@@ -1,0 +1,2 @@
+export const deleteUser = async(id) => {  
+      const url = `${import.meta.env.VITE_BASE_URL}/users/${id}`;    const res = await fetch(url, {        method: 'DELETE',    });    if (!res.ok) throw new Error('No se pudo eliminar el usuario');    return true;}

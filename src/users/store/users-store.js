@@ -13,9 +13,9 @@ const inicioButton = async () => {
     state.users =  user
 }
 const  finButton = async () => {
-    const user = await loadUsers(7);
+    const user = await loadUsers(6);
     if (user.length === 0) return;
-    state.currentPage = 5;
+    state.currentPage = 6;
     state.users =  user
 }
 
@@ -38,9 +38,24 @@ const  loadPreviousPage = async () => {
 
 // TODO: implemetar
 
-const onUserChanged = ()=>{
-    throw new Error('Not implemented')
+const onUserChanged = (updatedUser) => {
+    let wasFound = false;
+    
+    state.users = state.users.map(user => {
+        if (user.id === updatedUser.id) {
+            wasFound = true;
+            return updatedUser;
+        }
+        return user;
+    });
 
+    if (!wasFound) {
+        state.users.push(updatedUser);
+    }
+}
+
+const onUserDeleted = (id) => {
+    state.users = state.users.filter(user => user.id !== id);
 }
 
 const reloadPage = async () => {
@@ -52,6 +67,7 @@ export default {
     loandNextPage,
     loadPreviousPage,
     onUserChanged,
+    onUserDeleted,  // Agregamos la nueva función
     reloadPage,
     inicioButton,
     finButton,
