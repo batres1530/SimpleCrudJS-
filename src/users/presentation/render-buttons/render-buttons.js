@@ -1,9 +1,12 @@
-import usersStore from "../../store/users-store";
 import { renderTable } from '../render-table/render-table-';
-
 import './render-buttons.css';
 
 export const renderButtons = (element) => {
+    const usersStore = element.usersStore;
+    if (!usersStore) {
+        console.error('UsersStore not found in element');
+        return;
+    }
 
     const nextButton = document.createElement('button');
     nextButton.innerText = ' Next >';
@@ -21,33 +24,29 @@ export const renderButtons = (element) => {
     currentPageLabel.id = 'current-page';
     currentPageLabel.innerText = usersStore.getCurrentPage();
 
-    element.append(inicioButton,prevButton, currentPageLabel, nextButton,finButton);
+    element.append(inicioButton, prevButton, currentPageLabel, nextButton, finButton);
 
-    nextButton.addEventListener('click',  async() => {
-        await usersStore.loandNextPage();
+    nextButton.addEventListener('click', async () => {
+        await usersStore.loadNextPage();
         currentPageLabel.innerText = usersStore.getCurrentPage();
-        renderTable(element);
-      
+        renderTable(element, usersStore.getUsers());
     });
-    prevButton.addEventListener('click',  async() => {
+
+    prevButton.addEventListener('click', async () => {
         await usersStore.loadPreviousPage();
         currentPageLabel.innerText = usersStore.getCurrentPage();
-        renderTable(element);
-      
+        renderTable(element, usersStore.getUsers());
     });
-    inicioButton.addEventListener('click',  async() => {
+
+    inicioButton.addEventListener('click', async () => {
         await usersStore.inicioButton();
         currentPageLabel.innerText = usersStore.getCurrentPage();
-        renderTable(element);
-      
+        renderTable(element, usersStore.getUsers());
     });
-    finButton.addEventListener('click',  async() => {
+
+    finButton.addEventListener('click', async () => {
         await usersStore.finButton();
         currentPageLabel.innerText = usersStore.getCurrentPage();
-        renderTable(element);
-      
+        renderTable(element, usersStore.getUsers());
     });
-  
-   
-    
-}
+};

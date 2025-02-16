@@ -1,61 +1,61 @@
-import { loadUsers } from "../users-case/load-users-by-page"
+import { loadUsers } from "../users-case/load-users-by-page";
 
+export class UsersStore {
+    constructor() {
+        this.state = {
+            currentPage: 0,
+            users: []
+        };
+    }
 
-const state = {
-  currentPage: 0,
-  users: []
+    async inicioButton() {
+        const users = await loadUsers(1);
+        if (users.length === 0) return;
+        this.state.currentPage = 1;
+        this.state.users = users;
+    }
 
-}
-const inicioButton = async () => {
-    const user = await loadUsers(1);
-    if (user.length === 0) return;
-    state.currentPage = 1;
-    state.users =  user
-}
-const  finButton = async () => {
-    const user = await loadUsers(7);
-    if (user.length === 0) return;
-    state.currentPage = 6;
-    state.users =  user
-}
+    async finButton() {
+        const users = await loadUsers(7);
+        if (users.length === 0) return;
+        this.state.currentPage = 7;
+        this.state.users = users;
+    }
 
-const  loandNextPage = async () => {
-    if (state.currentPage >= 7) return;
-    const user = await loadUsers(state.currentPage + 1);
-        if (user.length === 0) return;
-        state.currentPage += 1;
-        state.users =  user
-}
-const  loadPreviousPage = async () => {
-    if (state.currentPage === 1) return;
-    const user = await loadUsers(state.currentPage - 1);
-        if (user.length === 0) return;
-        state.currentPage -= 1;
-        state.users =  user
+    async loadNextPage() {
+        if (this.state.currentPage >= 7) return;
+        const users = await loadUsers(this.state.currentPage + 1);
+        if (users.length === 0) return;
+        this.state.currentPage += 1;
+        this.state.users = users;
+    }
 
-   
-}
+    async loadPreviousPage() {
+        if (this.state.currentPage <= 1) return;
+        const users = await loadUsers(this.state.currentPage - 1);
+        if (users.length === 0) return;
+        this.state.currentPage -= 1;
+        this.state.users = users;
+    }
 
-// TODO: implemetar
+    onUserChanged(updatedUser) {
+        const userIndex = this.state.users.findIndex(user => user.id === updatedUser.id);
+        if (userIndex >= 0) {
+            this.state.users[userIndex] = updatedUser;
+        } else {
+            this.state.users.push(updatedUser);
+        }
+    }
 
-const onUserChanged = ()=>{
-    throw new Error('Not implemented')
+    async reloadPage() {
+        await loadUsers(this.state.currentPage);
+    }
 
-}
+    getUsers() {
+        return [...this.state.users];
+    }
 
-const reloadPage = async () => {
-    throw new Error('Not implemented')
-
-}
-
-export default {
-    loandNextPage,
-    loadPreviousPage,
-    onUserChanged,
-    reloadPage,
-    inicioButton,
-    finButton,
-    getUsers: () => [...state.users],
-    getCurrentPage: () => state.currentPage,
-
+    getCurrentPage() {
+        return this.state.currentPage;
+    }
 }
