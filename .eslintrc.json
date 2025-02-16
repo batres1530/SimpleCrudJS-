@@ -1,0 +1,14 @@
+{
+  "extends": ["eslint:recommended", "plugin:import/recommended", "prettier"],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "rules": {
+    "no-unused-vars": "warn",
+    "import/order": ["error", {
+      "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+      "newlines-between": "always"
+    }]
+  }
+}

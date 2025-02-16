@@ -1,39 +1,35 @@
 import modalHtml from  './render-modal.html?raw';
 import './render-modal.css';
 
-let modal, from;
+let modal, form;
 
-//todo: cargar el usario por id
-export const showModal = ()=>{
+export const showModal = () => {
     modal?.classList.remove('hide-modal');
-}
+};
 
-export const hideModal = ()=>{
+export const hideModal = () => {
     modal?.classList.add('hide-modal');
-    from?.reset();
-}
+    form?.reset();
+};
 
-export const  renderModal = (element, callback) => {
-    if (modal)  return;
+export const renderModal = (element, callback) => {
+    if (modal) return;
 
     modal = document.createElement('div');
     modal.innerHTML = modalHtml;
-    modal.className= 'modal-cantainer hide-modal';
-    from = modal.querySelector('form');
+    modal.className = 'modal-container hide-modal';
+    form = modal.querySelector('form');
 
-
-
-    modal.addEventListener('click', (e)=>{
-      if (e.target.className === 'modal-cantainer') {
-        hideModal();
-      }
-
+    modal.addEventListener('click', (e) => {
+        if (e.target.className === 'modal-container') {
+            hideModal();
+        }
     });
 
-    from.addEventListener('submit', async (evento)=>{
-        evento.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
         
-        const formData = new FormData(from);
+        const formData = new FormData(form);
         const userLike = {}; 
 
         for (const [key, value] of formData) {
@@ -41,19 +37,22 @@ export const  renderModal = (element, callback) => {
                 userLike[key] = +value;
                 continue;
             }
-            userLike[key] = value;
+            
             if (key === 'isActive') {
-                userLike[key] = (value === 'on')? true : false;
+                userLike[key] = value === 'on';
                 continue;
-              }
-              userLike[key] = value;
+            }
+            
+            userLike[key] = value;
         }
-        // todo : guardar el usuario
-        hideModal();
-        console.log(userLike);
-        await callback(userLike);
+
+        try {
+            await callback(userLike);
+            hideModal();
+        } catch (error) {
+            console.error('Error saving user:', error);
+        }
     });
 
     element.append(modal);
-
-}
+};
